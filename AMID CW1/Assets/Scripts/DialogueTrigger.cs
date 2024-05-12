@@ -19,7 +19,18 @@ public class DialogueTrigger : MonoBehaviour
             hasSpoken = true;
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            hasSpoken = false; // Reset the flag when the player leaves the trigger area
+        }
+    }
 }
+
+
+
 
 [System.Serializable]
 public class dialogueString

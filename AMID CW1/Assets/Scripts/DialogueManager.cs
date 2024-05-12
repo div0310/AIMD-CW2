@@ -82,12 +82,15 @@ public class DialogueManager : MonoBehaviour
     {
         while (currentDialogueIndex < dialogueList.Count)
         {
+            Debug.Log("Current dialogue index: " + currentDialogueIndex);
             dialogueString line = dialogueList[currentDialogueIndex];
 
             line.startDialogueEvent?.Invoke();
+            Debug.Log("startDialogueEvent invoked: " + currentDialogueIndex);
 
             if (line.isQuestion)
             {
+                Debug.Log("Is a question: " + line.text);
                 yield return StartCoroutine(TypeText(line.text));
                 option1Button.interactable = true;
                 option2Button.interactable = true;
@@ -100,15 +103,20 @@ public class DialogueManager : MonoBehaviour
                 option2Button.onClick.AddListener(() => HandleOptionSelected(line.option2IndexJump));
 
                 yield return new WaitUntil(() => optionSelected);
+                Debug.Log("Option selected: " + optionSelected);
             }
             else
             {
+                Debug.Log("Not a question: " + line.text);
                 yield return StartCoroutine(TypeText(line.text));
                 
             }
             line.endDialogueEvent?.Invoke();
 
+            Debug.Log("endDialogueEvent invoked: " + currentDialogueIndex);
+
             optionSelected = false;
+            
 
         }
         DialogueStop();
@@ -120,15 +128,17 @@ public class DialogueManager : MonoBehaviour
         DisableButtons();
 
         currentDialogueIndex = indexJump;
-        StartCoroutine(PrintDialogue());
+        //StartCoroutine(PrintDialogue());
+        Debug.Log("Index jump is " + indexJump);
     }
 
     private IEnumerator TypeText(string text)
     {
-        dialogueText.text = "";
+        string currentText = "";
         foreach (char letter in text.ToCharArray())//creates array of characters in the text
         {
-            dialogueText.text += letter;
+            currentText += letter;
+            dialogueText.text = currentText;
             yield return new WaitForSeconds(typingSpeed);
 
         }
