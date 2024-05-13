@@ -78,7 +78,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     private bool optionSelected = false;
-    private IEnumerator PrintDialogue()
+    private IEnumerator PrintDialogue()// prints strings from inspector
     {
         while (currentDialogueIndex < dialogueList.Count)
         {
@@ -128,7 +128,6 @@ public class DialogueManager : MonoBehaviour
         DisableButtons();
 
         currentDialogueIndex = indexJump;
-        //StartCoroutine(PrintDialogue());
         Debug.Log("Index jump is " + indexJump);
     }
 
